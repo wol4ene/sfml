@@ -13,6 +13,8 @@ public:
         _character {texture, {0,0,grid_size,grid_size}} {}
 
     void update(const sf::Time& delta_time);
+    
+    sf::Vector2f get_position() const;
 
 private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;

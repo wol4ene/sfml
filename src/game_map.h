@@ -1,8 +1,8 @@
 #include "tiled_map_parser.h"
 #include "map_renderer.h"
 #include <SFML/Graphics.hpp>
-
 #pragma once
+
 class GameMap : public sf::Drawable {
 public:
     GameMap(const std::string& map_json_file,

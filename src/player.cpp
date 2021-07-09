@@ -39,6 +39,12 @@ Player::update(const sf::Time& delta_time)
     }
 }
 
+sf::Vector2f
+Player::get_position() const
+{
+    return _character.getPosition();
+}
+
 void
 Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
