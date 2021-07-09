@@ -26,8 +26,8 @@ struct object {
     uint32_t id;
     uint32_t height_pixels;
     uint32_t width_pixels;
-    uint32_t top_left_x;
-    uint32_t top_left_y;
+    uint32_t top_left_x;  //pixel
+    uint32_t top_left_y;  //pixel  
     std::vector<property> properties;
 };
 
