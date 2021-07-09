@@ -1,0 +1,150 @@
+typedef struct property_s {
+    std::string name;
+    std::string type;
+    uint32_t value;
+} property_t;
+
+typedef struct t_layer_s {
+    std::string name;
+    uint32_t id;
+    uint32_t height;
+    uint32_t width;
+    std::vector<uint32_t> data;
+    std::vector<property_t> properties;
+} tile_layer_t;
+
+typedef struct o_layer_obj_s {
+    std::string name;
+    uint32_t id;
+    uint32_t height;
+    uint32_t width;
+    std::string type;
+    bool visible;
+    uint32_t top_left_x;
+    uint32_t top_left_y;
+    std::vector<property_t> properties;
+} o_layer_obj_t;
+
+typedef struct o_layer_s {
+    uint32_t id;
+    std::string name;
+    bool visible;
+    std::vector<o_layer_obj_t> objects;
+} objectgroup_t;
+
+void parse_map_file(const std::string& map_file)
+{
+    using json = nlohmann::json;
+    std::ifstream ifs{map_file};
+    json j = json::parse(ifs);
+
+    uint32_t num_rows = j.at("height");
+    uint32_t num_cols = j.at("width");
+    uint32_t tile_height = j.at("tileheight");
+    uint32_t tile_width = j.at("tilewidth");
+    cout << "num_layers: " << j.at("layers").size() << endl;
+
+    std::vector<tile_layer_t> tile_layers;
+    std::vector<objectgroup_t> object_layers;
+
+    for (const auto& layer : j.at("layers")) {
+        if (layer.at("type") == "objectgroup") {
+            objectgroup_t ogrp{};
+            ogrp.id = layer.at("id");
+            ogrp.name = layer.at("name");
+            ogrp.visible = layer.at("visible");
+
+            for (const auto& o : layer.at("objects")) {
+                o_layer_obj_t obj{};
+                obj.name = o.at("name");
+                obj.id = o.at("id");
+                obj.height = o.at("height");
+                obj.width = o.at("width");
+                obj.type = o.at("type");
+                obj.visible = o.at("visible");
+                obj.top_left_x = o.at("x");
+                obj.top_left_y = o.at("y");
+
+                if (o.contains("properties")) {
+                    for (const auto& p : o.at("properties")) {
+                        property_t prop;
+                        prop.name = p.at("name");
+                        prop.type = p.at("type");
+                        prop.value = p.at("value");
+                        obj.properties.push_back(prop);
+                    }
+                }
+                ogrp.objects.push_back(obj);
+            }
+            object_layers.push_back(ogrp);
+        }
+        if (layer.at("type") == "tilelayer") {
+            tile_layer_t new_layer;
+            new_layer.name = layer.at("name");
+            new_layer.id = layer.at("id");
+            new_layer.height = layer.at("height");
+            new_layer.width = layer.at("width");
+
+            for (const auto& data_point : layer.at("data")) {
+                new_layer.data.push_back(data_point);;
+            }
+            if (layer.contains("properties")) {
+                for (const auto& p : layer.at("properties")) {
+                    property_t prop;
+                    prop.name = p.at("name");
+                    prop.type = p.at("type");
+                    prop.value = p.at("value");
+                    new_layer.properties.push_back(prop);
+                }
+            }
+            tile_layers.push_back(new_layer);
+        }
+    }
+    cout << "num_rows: " << num_rows << endl;
+    cout << "num_cols: " << num_cols << endl;
+    cout << "tile_height: " << tile_height << endl;
+    cout << "tile_width: " << tile_width << endl;
+    cout << "LAYERS..." << endl;
+    for (const auto& layer : tile_layers) {
+        cout << "\tlayer name: " << layer.name << endl;
+        cout << "\t\tlayer id: " << layer.id << endl;
+        cout << "\t\theight: " << layer.height << endl;
+        cout << "\t\twidth: " << layer.width << endl;
+        for (const auto& p : layer.properties) {
+            cout << "\t\t\tprop name: " << p.name << endl;
+            cout << "\t\t\tprop type: " << p.type << endl;
+            cout << "\t\t\tprop value: " << p.value << endl;
+        }
+        //for (const auto& pt : layer.data) {
+            //if (pt) {cout << "\tvalue: " << pt << endl;}
+        //}
+    }
+    cout << endl;
+    cout << "OBJECTGROUPS..." << endl;
+    for (const auto& objgrp : object_layers) {
+        cout << "\tobjgrp name: " << objgrp.name << endl;
+        cout << "\tobjgrp id: " << objgrp.id << endl;
+        cout << "\tobjgrp visible: " << objgrp.visible << endl;
+        for (const auto& obj : objgrp.objects) {
+            cout << "\t\tname: " << obj.name << endl;
+            cout << "\t\tname: " << obj.id << endl;
+            cout << "\t\t\theigh: " << obj.height << endl;
+            cout << "\t\t\twidth: " << obj.width << endl;
+            cout << "\t\t\ttype: " << obj.type << endl;
+            cout << "\t\t\tvisible: " << obj.visible << endl;
+            cout << "\t\t\ttop_left_x: " << obj.top_left_x << endl;
+            cout << "\t\t\ttop_left_y: " << obj.top_left_y << endl;
+            for (const auto& p : obj.properties) {
+                cout << "\t\t\tprop name: " << p.name << endl;
+                cout << "\t\t\tprop type: " << p.type << endl;
+                cout << "\t\t\tprop value: " << p.value << endl;
+            }
+        }
+    }
+}
+
+int main()
+{
+    parse_map_file("images/map2.json");
+    return 0;
+}
