@@ -2,7 +2,7 @@ acquire the MacOS package from: https://www.sfml-dev.org/download/sfml/2.5.1/
 tar xvzf SFML-2.5.1-macOS-clang.tar.gz
 cd SFML-2.5.1-macos-clang
 
-    // Copies the dylibs - not needed
+    // Copies the dylibs - SFML documentation suggests against this
     //sudo cp -r lib/* /usr/local/lib
     //sudo cp -r include/* /usr/local/include
 
@@ -10,13 +10,13 @@ cd SFML-2.5.1-macos-clang
 sudo cp -r Frameworks/* /Library/Frameworks
 sudo cp -r extlibs/* /Library/Frameworks
 
-export LD_LIBRARY_PATH=/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib
+export LD_LIBRARY_PATH=/Users/prij/Desktop/Projects/sfml_install/SFML-2.5.1-macos-clang/lib
 
 // COMPILE
-g++ -c main.cpp -I/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include
+g++ -c main.cpp -I/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include
 // LINK
-g++ main.o -o sfml-app -L/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.o -o sfml-app -L/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system
 
 // all-in-one compile, if desired
-g++ -I/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include -L/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system main.cpp -o game
-clang++ -std=c++11 -I/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include -L/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system main.cpp -o game 
+g++ -I/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include -L/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system main.cpp -o game
+clang++ -std=c++11 -I/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include -L/Users/prij/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib -lsfml-graphics -lsfml-window -lsfml-system main.cpp -o game 

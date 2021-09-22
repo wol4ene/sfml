@@ -1,7 +1,7 @@
 CXX      := clang++
 CXXFLAGS := -std=c++11 -pedantic-errors -Wall -Wextra -Werror -MMD -MP
-INCLUDE  := -I/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/include
-LDFLAGS  := -L/Users/jlprice/Desktop/Projects/sfml/SFML-2.5.1-macos-clang/lib
+INCLUDE  := -I/Users/prij/Desktop/Projects/sfml_install/SFML-2.5.1-macos-clang/include
+LDFLAGS  := -L/Users/prij/Desktop/Projects/sfml_install/SFML-2.5.1-macos-clang/lib
 LDLIBS   := -lsfml-graphics -lsfml-window -lsfml-system
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
